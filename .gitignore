@@ -1,0 +1,11 @@
+/out/
+
+.idea/
+*.iml
+target/
+logs/
+javadocs/
+
+.DS_Store
+generated/
+classes/
