@@ -48,6 +48,19 @@ public class SubscriberRegistry {
         }
     }
 
+    public List<Subscriber> getMatchedSubscribers(Object event) {
+        List<Subscriber> matchedSubscribers = new ArrayList<>();
+        Class<?> postedEventType = event.getClass();
+        for (Map.Entry<Class<?>, CopyOnWriteArraySet<Subscriber>> entry : subscribers.entrySet()) {
+            Class<?> eventType = entry.getKey();
+            Collection<Subscriber> eventSubscribers = entry.getValue();
+            if (postedEventType.isAssignableFrom(eventType)) {
+                matchedSubscribers.addAll(eventSubscribers);
+            }
+        }
+        return matchedSubscribers;
+    }
+
     private Map<Class<?>, Collection<Subscriber>> findAllSubscribers(Object listener) {
         Map<Class<?>, Collection<Subscriber>> eventTypeSubscribers = new HashMap<>();
         Class<?> clazz = listener.getClass();
